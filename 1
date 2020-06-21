@@ -1,0 +1,145 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define first_row 0
+
+int i, j, temp, temp2, x, y;
+
+typedef struct Matrix{
+        int rowCount;
+        int colCount;
+        float matrix[99][99];
+    } Matrix;
+
+
+
+Matrix swap(Matrix M, int row1, int row2){ //swap row1 with row2
+    printf("Swapping rows %d and %d\n", row1, row2);
+    for(x = 0; x<M.colCount;x++){
+        
+        temp = M.matrix[row1][x];
+        M.matrix[row1][x] = M.matrix[row2][x];
+        M.matrix[row2][x] = temp;
+    }
+    
+ return M;
+}
+
+void print( Matrix M){
+    for(x=0;x<M.rowCount;x++){
+        for(y=0;y<M.colCount;y++){
+            printf("%.2f\t", M.matrix[x][y]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    
+}
+
+Matrix RREF(Matrix M){ //RREF algorithm
+     
+    int row = 0;
+    int k = 0;
+
+    print(M);
+    
+    i=0;j=0;
+    if(M.matrix[i][j]==0){ //check for 0 in first pivot column
+        while(M.matrix[row][0]==0){
+            row++;
+          
+        }
+            
+            M = swap(M, first_row, row);
+            print(M);
+    }
+                
+    i=0;j=0;      
+   
+    while(k < M.rowCount){
+        float mult; //row multiplier
+        float div; //row divisor
+        for(i=0;i<M.rowCount;i++){
+            
+            div = M.matrix[k][k];
+            if(div == 0){
+                break;
+            }
+            mult = M.matrix[i][k] / M.matrix[k][k];
+             
+            for(j=0;j<M.colCount;j++){
+                
+                if(i == k){
+                    M.matrix[i][j] /= div;
+                    
+                }
+                else{
+                    M.matrix[i][j] -= M.matrix[k][j] * mult;
+                    
+                }
+            }
+                  
+        }
+             k++;
+             print(M);
+            
+    }
+    
+    printf("Reduced Row Echelon Form of Matrix is:\n");
+    print(M);
+    
+    return M;
+}
+
+
+Matrix input(){
+Matrix output; //outputted matrix
+
+printf("Input the amount of rows");
+scanf("%d, &output.rowCount);
+
+printf("Input the amount of columns");
+scanf("%d, &output.colCount);
+
+
+printf("Input each row of matrix, separated by Enter");
+output.matrix = 
+
+}
+
+int main() {
+
+    Matrix example; //3x4 matrix
+    
+    //{{5, 3, -8, 6} row 1
+    //{3, -7, 8, -2}  row 2
+    //{3, -9, 12, 6}row 3
+    
+    //row 1
+    example.matrix[0][0] = 5;
+    example.matrix[0][1] = 3;
+    example.matrix[0][2] = -8;
+    example.matrix[0][3] = 6;
+   
+    //row 2
+    example.matrix[1][0] = 3;
+    example.matrix[1][1] = -7;
+    example.matrix[1][2] = 8;
+    example.matrix[1][3] = -2;
+  
+    
+    //row 3
+    example.matrix[2][0] = 3;
+    example.matrix[2][1] = -9;
+    example.matrix[2][2] = 12;
+    example.matrix[2][3] = 6;
+   
+    
+  
+    example.rowCount = 3;
+    example.colCount = 4;
+    
+    example = RREF(example);
+    
+
+    return 0;
+}
